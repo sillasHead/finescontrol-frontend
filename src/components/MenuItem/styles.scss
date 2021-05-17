@@ -1,0 +1,22 @@
+.menu-item {
+  width: 100%;
+  color: var(--white);
+  text-align: center;
+  padding: 30px 0;
+
+  &.selected {
+    background: var(--orange-300);
+    font-weight: var(--font-bold);
+  }
+
+  p {
+    font-size: var(--h3);
+  }
+}
+
+
+.line-separator {
+  width: 75%;
+  height: .1px;
+  background: var(--black);
+}
