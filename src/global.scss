@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap');
 
 *,
 *:before,
@@ -15,9 +15,11 @@
   --gray-100: #f2f2f2;
   --gray-400: #b5b5b5;
   --gray-800: #3b3b3b;
+  --gray-900: #2c2c2c;
   --black: #000;
 
   --orange-300: #ff8756;
+  --orange-400: #e2774c;
   --orange-700: #e34502;
 
   --yellow-300: #fdf477;
@@ -28,13 +30,14 @@
 
   --blue-100: #b4e7f6;
   --blue-600: #00a0da;
+  --blue-700: #008dc0;
 
   --h1: 2.5rem;
   --h2: 1.875rem;
   --h3: 1.5rem;
   --p: 1rem;
 
-  --font-bold: 900;
+  --font-bold: 700;
 
   --box-shadow: 2px 2px 2px 1px rgba(0, 0, 0, 0.2);
 }
@@ -58,9 +61,17 @@ body {
 }
 
 button {
+  font-family: 'Roboto';
+  font-weight: 500;
+  letter-spacing: 0.02857rem;
   cursor: pointer;
 }
 
+input {
+  font-family: 'Roboto';
+  font-weight: 400;
+  font-size: var(--p);
+}
 
 
 /* personalizar a barra em geral */
@@ -69,14 +80,14 @@ button {
 }
 
 /* personalizar o fundo da barra */
-::-webkit-scrollbar-track {
-  background: var(--gray-800);
-}
+// ::-webkit-scrollbar-track {
+//   background: var(--gray-800);
+// }
 
 /* alça da barra */
 ::-webkit-scrollbar-thumb {
   background: var(--gray-400);
   margin: 10px;
   border-radius: 10px;
-  border: 4px solid var(--gray-800);
+  border: 4px solid var(--white);
 }

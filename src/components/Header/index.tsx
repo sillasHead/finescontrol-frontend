@@ -1,9 +1,7 @@
-import './styles.scss'
+import styles from './styles.module.scss';
 
 export default function Header() {
   return (
-    <div className="header">
-      
-    </div>
+    <div className={styles.header} />
   );
 }

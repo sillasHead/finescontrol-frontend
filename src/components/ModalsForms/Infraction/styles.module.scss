@@ -1,0 +1,31 @@
+.modalContent {
+  height: 75%;
+
+  .buttons {
+    display: flex;
+  }
+
+  img {
+    width: 20px;
+    height: 20px;
+    margin-left: 20px;
+  }
+}
+
+.itemContent {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  
+  span {
+    white-space: nowrap;
+    max-width: 550px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}
+
+.more {
+  display: flex;
+  justify-content: space-between;
+}

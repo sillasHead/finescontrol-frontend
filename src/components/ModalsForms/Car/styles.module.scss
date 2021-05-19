@@ -1,0 +1,16 @@
+.modalContent {
+  height: 75%;
+}
+
+.formContent {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  margin: 0 10px;
+}
+
+.buttons {
+  display: flex;
+  gap: 20px;
+}

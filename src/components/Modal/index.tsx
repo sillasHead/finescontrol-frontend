@@ -1,5 +1,5 @@
 import React from 'react';
-import './styles.scss'
+import styles from './styles.module.scss';
 
 type Props = {
   children: React.ReactNode;
@@ -7,8 +7,9 @@ type Props = {
 
 export default function Modal({ children }: Props) {
   return (
-    <div className="background-modal">
-      <div className="modal-content">
+    <div className={styles.backgroundModal}>
+      <div className={styles.modalContent}>
+        <h1>Infrações</h1>
         {children}
       </div>
     </div>
