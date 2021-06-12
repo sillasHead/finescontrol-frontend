@@ -1,8 +1,8 @@
-import { ButtonAddFixed } from 'components/Button';
-import styles from './styles.module.scss';
+import { ButtonAddFixed } from 'components/Button'
+import styles from './styles.module.scss'
 
 type Props = {
-  children: React.ReactNode;
+  children: React.ReactNode
 }
 
 export default function Background({ children }: Props) {
@@ -11,5 +11,5 @@ export default function Background({ children }: Props) {
       {children}
       <ButtonAddFixed />
     </div>
-  );
+  )
 }

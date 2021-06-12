@@ -1,9 +1,10 @@
-import { FormControlLabel, Radio, RadioGroup, RadioProps, TextField } from '@material-ui/core';
-import { withStyles } from '@material-ui/core/styles';
-import { Button } from 'components/Button';
-import { useState } from 'react';
-import { today } from 'utils/functions';
-import styles from './styles.module.scss';
+import { FormControlLabel, Radio, RadioGroup, RadioProps, TextField } from '@material-ui/core'
+import { withStyles } from '@material-ui/core/styles'
+import { Button } from 'components/Button'
+import Modal from 'components/Modal'
+import { useState } from 'react'
+import { today } from 'utils/functions'
+import styles from './styles.module.scss'
 
 const CssTextField = withStyles({
   root: {
@@ -14,7 +15,7 @@ const CssTextField = withStyles({
       borderBottomColor: 'var(--blue-600)',
     },
   },
-})(TextField);
+})(TextField)
 
 const CssRadio = withStyles({
   root: {
@@ -24,19 +25,19 @@ const CssRadio = withStyles({
     },
   },
   checked: {},
-})((props: RadioProps) => <Radio color="default" {...props} />);
+})((props: RadioProps) => <Radio color="default" {...props} />)
 
 
-export default function FormNewFine() {
-  const [selectedDate, setSelectedDate] = useState<string | null>(today());
-  const [amount, setAmount] = useState('0,00');
+export default function ModalNewFine() {
+  const [selectedDate, setSelectedDate] = useState<string | null>(today())
+  const [amount, setAmount] = useState('0,00')
 
   function handleDateChange(newDateString: string) {
-    setSelectedDate(newDateString);
+    setSelectedDate(newDateString)
   }
 
   return (
-    <>
+    <Modal>
       <div className={styles.modalContent}>
         <div className={styles.line}>
           <CssTextField label="Descrição" style={{ width: '80%' }} />
@@ -97,6 +98,6 @@ export default function FormNewFine() {
           </div>
         </div>
       </div>
-    </>
-  );
+    </Modal>
+  )
 }

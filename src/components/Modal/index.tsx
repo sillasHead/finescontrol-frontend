@@ -1,8 +1,8 @@
-import React from 'react';
-import styles from './styles.module.scss';
+import React from 'react'
+import styles from './styles.module.scss'
 
 type Props = {
-  children: React.ReactNode;
+  children: React.ReactNode
 }
 
 export default function Modal({ children }: Props) {
@@ -13,5 +13,5 @@ export default function Modal({ children }: Props) {
         {children}
       </div>
     </div>
-  );
+  )
 }

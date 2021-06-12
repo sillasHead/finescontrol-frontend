@@ -1,10 +1,11 @@
-import { ButtonAdd } from 'components/Button';
-import { CompleteItem } from 'components/Item';
-import styles from './styles.module.scss';
+import { ButtonAdd } from 'components/Button'
+import { CompleteItem } from 'components/Item'
+import Modal from 'components/Modal'
+import styles from './styles.module.scss'
 
-export default function FormCar() {
+export default function ModalCar() {
   return (
-    <>
+    <Modal>
       <div className={styles.modalContent}>
         <CompleteItem paddingContent={5}>
           <div className={styles.formContent}>
@@ -22,6 +23,6 @@ export default function FormCar() {
         </CompleteItem>
       </div>
       <ButtonAdd />
-    </>
-  );
+    </Modal>
+  )
 }

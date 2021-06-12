@@ -1,33 +1,13 @@
-import Modal from 'components/Modal';
-import FormInfraction from 'components/ModalsForms/Infraction';
-import styles from './styles.module.scss';
+import { MenuItem } from 'components/Item'
+import styles from './styles.module.scss'
 
-type MenuProps = {
-  children: React.ReactNode;
-}
-
-export function Menu({ children }: MenuProps) {
+export function Menu() {
   return (
     <div className={styles.menuContainer}>
-      {children}
+      <MenuItem selected={true} />
+      <MenuItem selected={false} />
+      <MenuItem selected={false} />
+      <MenuItem selected={false} />
     </div>
-  );
-}
-
-type ItemProps = {
-  selected: boolean;
-};
-
-export function ItemMenu({ selected }: ItemProps) {
-  return (
-    <>
-      <div className={`${styles.menuItem} ${selected ? styles.selected : ''}`}>
-        <p>Carros</p>
-      </div>
-      <div className={styles.lineSeparator} />
-      <Modal>
-        <FormInfraction />
-      </Modal>
-    </>
-  );
+  )
 }

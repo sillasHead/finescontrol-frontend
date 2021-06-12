@@ -1,10 +1,11 @@
-import { ButtonAdd } from 'components/Button';
-import { Item } from 'components/Item';
-import styles from './styles.module.scss';
+import { ButtonAdd } from 'components/Button'
+import { Item } from 'components/Item'
+import Modal from 'components/Modal'
+import styles from './styles.module.scss'
 
-export default function FormInfraction() {
+export default function ModalInfraction() {
   return (
-    <>
+    <Modal>
       <div className={styles.modalContent}>
         <Item flexDirection='row' alignItems='center'>
           <div className={styles.itemContent}>
@@ -30,6 +31,6 @@ export default function FormInfraction() {
         </Item>
       </div>
       <ButtonAdd />
-    </>
-  );
+    </Modal>
+  )
 }
