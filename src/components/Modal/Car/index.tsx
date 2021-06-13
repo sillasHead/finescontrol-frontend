@@ -1,11 +1,20 @@
-import { ButtonAdd } from 'components/Button'
+import { AddButton, DeleteButton, UpdateButton } from 'components/PersonalizedComponents'
 import { CompleteItem } from 'components/Item'
 import Modal from 'components/Modal'
 import styles from './styles.module.scss'
 
-export default function ModalCar() {
+type Props = {
+  showModal: boolean
+  setShowModal: (state: boolean) => void
+}
+
+export default function ModalCar({ showModal, setShowModal }: Props) {
   return (
-    <Modal>
+    <Modal
+      showModal={showModal}
+      setShowModal={setShowModal}
+      title={'Carros'}
+    >
       <div className={styles.modalContent}>
         <CompleteItem paddingContent={5}>
           <div className={styles.formContent}>
@@ -15,14 +24,14 @@ export default function ModalCar() {
             <span>
               <strong>Renavam:&nbsp;</strong> 20278104031
             </span>
-            <div className={styles.buttons}>
-              <img src="/update.svg" alt="Atualizar" />
-              <img src="/delete.svg" alt="Excluir" />
+            <div>
+              <UpdateButton />
+              <DeleteButton />
             </div>
           </div>
         </CompleteItem>
       </div>
-      <ButtonAdd />
+      <AddButton />
     </Modal>
   )
 }

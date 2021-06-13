@@ -73,6 +73,9 @@ input {
   font-size: var(--p);
 }
 
+img {
+  pointer-events: none;
+}
 
 /* personalizar a barra em geral */
 ::-webkit-scrollbar {

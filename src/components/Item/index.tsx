@@ -1,4 +1,3 @@
-import ModalInfraction from 'components/Modal/Infraction'
 import styles from './styles.module.scss'
 
 type CompleteItemProps = {
@@ -76,16 +75,17 @@ export function FineItem() {
 
 type MenuItemProps = {
   selected: boolean
+  title: string
+  setShowModal?: (state: boolean) => void
 }
 
-export function MenuItem({ selected }: MenuItemProps) {
+export function MenuItem({ selected, title, setShowModal }: MenuItemProps) {
   return (
     <>
-      <div className={`${styles.menuItem} ${selected ? styles.selected : ''}`}>
-        <p>Carros</p>
+      <div className={`${styles.menuItem} ${selected ? styles.selected : ''}`} onClick={setShowModal ? () => setShowModal(true) : () => Function}>
+        <p>{title}</p>
       </div>
       <div className={styles.lineSeparator} />
-      <ModalInfraction />
     </>
   )
 }

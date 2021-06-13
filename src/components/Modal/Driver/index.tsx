@@ -1,21 +1,30 @@
-import { ButtonAdd } from 'components/Button'
 import { Item } from 'components/Item'
 import Modal from 'components/Modal'
+import { AddButton, DeleteButton, UpdateButton } from 'components/PersonalizedComponents'
 import styles from './styles.module.scss'
 
-export default function ModalDriver() {
+type Props = {
+  showModal: boolean
+  setShowModal: (state: boolean) => void
+}
+
+export default function ModalDriver({ showModal, setShowModal }: Props) {
   return (
-    <Modal>
+    <Modal
+      showModal={showModal}
+      setShowModal={setShowModal}
+      title={'Motoristas'}
+    >
       <div className={styles.modalContent}>
         <Item flexDirection='row' alignItems='center'>
           <span>Cláudio Almeida Mascarenhas</span>
-          <div className={styles.buttons}>
-            <img src="/update.svg" alt="Atualizar" />
-            <img src="/delete.svg" alt="Excluir" />
+          <div>
+              <UpdateButton />
+              <DeleteButton />
           </div>
         </Item>
       </div>
-      <ButtonAdd />
+      <AddButton />
     </Modal>
   )
 }

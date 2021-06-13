@@ -1,11 +1,20 @@
-import { ButtonAdd } from 'components/Button'
+import { AddButton, DeleteButton, UpdateButton } from 'components/PersonalizedComponents'
 import { Item } from 'components/Item'
 import Modal from 'components/Modal'
 import styles from './styles.module.scss'
 
-export default function ModalInfraction() {
+type Props = {
+  showModal: boolean
+  setShowModal: (state: boolean) => void
+}
+
+export default function ModalInfraction({ showModal, setShowModal }: Props) {
   return (
-    <Modal>
+    <Modal
+      showModal={showModal}
+      setShowModal={setShowModal}
+      title={'Infrações'}
+    >
       <div className={styles.modalContent}>
         <Item flexDirection='row' alignItems='center'>
           <div className={styles.itemContent}>
@@ -25,12 +34,12 @@ export default function ModalInfraction() {
             </div>
           </div>
           <div className={styles.buttons}>
-            <img src="/update.svg" alt="Atualizar" />
-            <img src="/delete.svg" alt="Excluir" />
+              <UpdateButton />
+              <DeleteButton />
           </div>
         </Item>
       </div>
-      <ButtonAdd />
+      <AddButton />
     </Modal>
   )
 }

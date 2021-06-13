@@ -1,34 +1,18 @@
 import { FormControlLabel, Radio, RadioGroup, RadioProps, TextField } from '@material-ui/core'
-import { withStyles } from '@material-ui/core/styles'
-import { Button } from 'components/Button'
+import { Theme, withStyles } from '@material-ui/core/styles'
+import Button from '@material-ui/core/Button'
 import Modal from 'components/Modal'
 import { useState } from 'react'
 import { today } from 'utils/functions'
 import styles from './styles.module.scss'
+import { BlueButton, CssRadio, CssTextField, GrayButton, OrangeButton } from 'components/PersonalizedComponents'
 
-const CssTextField = withStyles({
-  root: {
-    '& label.Mui-focused': {
-      color: 'var(--blue-600)',
-    },
-    '& .MuiInput-underline:after': {
-      borderBottomColor: 'var(--blue-600)',
-    },
-  },
-})(TextField)
+type Props = {
+  showModal: boolean
+  setShowModal: (state: boolean) => void
+}
 
-const CssRadio = withStyles({
-  root: {
-    color: 'var(--gray-400)',
-    '&$checked': {
-      color: 'var(--blue-600)',
-    },
-  },
-  checked: {},
-})((props: RadioProps) => <Radio color="default" {...props} />)
-
-
-export default function ModalNewFine() {
+export default function ModalNewFine({ showModal, setShowModal }: Props) {
   const [selectedDate, setSelectedDate] = useState<string | null>(today())
   const [amount, setAmount] = useState('0,00')
 
@@ -37,8 +21,12 @@ export default function ModalNewFine() {
   }
 
   return (
-    <Modal>
-      <div className={styles.modalContent}>
+    <Modal
+      showModal={showModal}
+      setShowModal={setShowModal}
+      title={'Nova Multa'}
+    >
+      <div /* action='' method='post' */ className={styles.modalContent}>
         <div className={styles.line}>
           <CssTextField label="Descrição" style={{ width: '80%' }} />
           <CssTextField label="Valor" value={amount} onKeyUp={() => Function} style={{ width: '15%' }} />
@@ -61,7 +49,7 @@ export default function ModalNewFine() {
           <CssTextField label="Motorista" style={{ width: 300 }} />
           <CssTextField label="Carro" style={{ width: 300 }} />
         </div>
-        <br />
+
         <div className={styles.line}>
           <div className={styles.column}>
             <span>
@@ -89,12 +77,17 @@ export default function ModalNewFine() {
             }}
           />
         </div>
-        <br />
         <div className={styles.line}>
-          <Button color={'secondary'} value={'Gerar aviso de multa'} />
+          <OrangeButton variant={'contained'}>
+            Gerar aviso de multa
+          </OrangeButton>
           <div className={styles.cancelOrSave}>
-            <Button color={'default'} value={'Cancelar'} />
-            <Button color={'primary'} value={'Salvar'} />
+            <GrayButton variant={'contained'} onClick={() => setShowModal(false)}>
+              Cancelar
+            </GrayButton>
+            <BlueButton variant={'contained'}>
+              Salvar
+            </BlueButton>
           </div>
         </div>
       </div>
