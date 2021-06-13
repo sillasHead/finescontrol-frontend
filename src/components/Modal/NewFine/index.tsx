@@ -13,11 +13,13 @@ type Props = {
 }
 
 export default function ModalNewFine({ showModal, setShowModal }: Props) {
-  const [selectedDate, setSelectedDate] = useState<string | null>(today())
+  const [infractionMoment, setInfractionMoment] = useState<string | null>(today('datetime'))
+  const [dueDate, setDueDate] = useState<string | null>(today('date'))
+  const [paymentDate, setPaymentDate] = useState<string | null>(today('date'))
   const [amount, setAmount] = useState('0,00')
 
   function handleDateChange(newDateString: string) {
-    setSelectedDate(newDateString)
+    setInfractionMoment(newDateString)
   }
 
   return (
@@ -37,8 +39,7 @@ export default function ModalNewFine({ showModal, setShowModal }: Props) {
             style={{ width: 190 }}
             label="Momento da infração"
             type="datetime-local"
-            defaultValue={selectedDate}
-            color={"secondary"}
+            defaultValue={infractionMoment}
             onChange={e => handleDateChange(e.target.value)}
             InputLabelProps={{
               shrink: true,
@@ -63,7 +64,7 @@ export default function ModalNewFine({ showModal, setShowModal }: Props) {
           <CssTextField
             label="Prazo"
             type="date"
-            defaultValue="2017-05-24"
+            defaultValue={dueDate}
             InputLabelProps={{
               shrink: true,
             }}
@@ -71,7 +72,7 @@ export default function ModalNewFine({ showModal, setShowModal }: Props) {
           <CssTextField
             label="Pagamento"
             type="date"
-            defaultValue="2017-05-24"
+            defaultValue={paymentDate}
             InputLabelProps={{
               shrink: true,
             }}
