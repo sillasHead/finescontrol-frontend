@@ -1,11 +1,9 @@
-import { FormControlLabel, Radio, RadioGroup, RadioProps, TextField } from '@material-ui/core'
-import { Theme, withStyles } from '@material-ui/core/styles'
-import Button from '@material-ui/core/Button'
+import { FormControlLabel, RadioGroup } from '@material-ui/core'
 import Modal from 'components/Modal'
+import { BlueButton, CssRadio, CssTextField, GrayButton, OrangeButton } from 'components/CustomComponents'
 import { useState } from 'react'
 import { today } from 'utils/functions'
 import styles from './styles.module.scss'
-import { BlueButton, CssRadio, CssTextField, GrayButton, OrangeButton } from 'components/PersonalizedComponents'
 
 type Props = {
   showModal: boolean

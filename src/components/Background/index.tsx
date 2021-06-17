@@ -1,5 +1,5 @@
 import ModalNewFine from 'components/Modal/NewFine'
-import { NewFineButton } from 'components/PersonalizedComponents'
+import { NewFineButton } from 'components/CustomComponents'
 import { useState } from 'react'
 import styles from './styles.module.scss'
 

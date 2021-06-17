@@ -1,4 +1,4 @@
-import { AddButton, DeleteButton, UpdateButton } from 'components/PersonalizedComponents'
+import { AddButton, DeleteButton, UpdateButton } from 'components/CustomComponents'
 import { Item } from 'components/Item'
 import Modal from 'components/Modal'
 import styles from './styles.module.scss'

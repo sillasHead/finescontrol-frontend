@@ -94,12 +94,13 @@ type ItemProps = {
   children: React.ReactNode
   flexDirection?: 'column' | 'row'
   alignItems?: 'center'
+  inactive?: boolean
 }
 
-export function Item({ children, flexDirection, alignItems }: ItemProps) {
+export function Item({ children, flexDirection, alignItems, inactive }: ItemProps) {
   return (
     <div
-      className={styles.item}
+      className={`${styles.item} ${inactive ? styles.inactive : ''}`}
       style={{
         flexDirection: flexDirection,
         alignItems: alignItems

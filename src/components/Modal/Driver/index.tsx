@@ -1,6 +1,9 @@
-import { Item } from 'components/Item'
 import Modal from 'components/Modal'
-import { AddButton, DeleteButton, UpdateButton } from 'components/PersonalizedComponents'
+import { AddButton, LineSeparator } from 'components/CustomComponents'
+import { useEffect, useState } from 'react'
+import { api } from 'utils/api'
+import { Driver } from 'utils/types'
+import { ItemActiveDriver, ItemInactiveDriver } from './components/ItemDriver'
 import styles from './styles.module.scss'
 
 type Props = {
@@ -9,6 +12,23 @@ type Props = {
 }
 
 export default function ModalDriver({ showModal, setShowModal }: Props) {
+  const [activeDrivers, setActiveDrivers] = useState<Driver[]>([])
+  const [inactiveDrivers, setInactiveDrivers] = useState<Driver[]>([])
+
+  useEffect(() => {
+    api.get('motoristas')
+      .then(response => {
+        const activeDrivers = (response.data as Driver[]).filter(driver => driver.status)
+        setActiveDrivers(activeDrivers)
+
+        const inactiveDrivers = (response.data as Driver[]).filter(driver => !driver.status)
+        setInactiveDrivers(inactiveDrivers)
+      })
+      .catch(error => { //TODO melhorar o retorno de erro
+        console.log('api.get => ', error)
+      })
+  }, [activeDrivers])
+
   return (
     <Modal
       showModal={showModal}
@@ -16,13 +36,17 @@ export default function ModalDriver({ showModal, setShowModal }: Props) {
       title={'Motoristas'}
     >
       <div className={styles.modalContent}>
-        <Item flexDirection='row' alignItems='center'>
-          <span>Cláudio Almeida Mascarenhas</span>
-          <div>
-              <UpdateButton />
-              <DeleteButton />
-          </div>
-        </Item>
+        {activeDrivers.map(driver => (
+          <ItemActiveDriver driver={driver} />
+        ))}
+
+        {inactiveDrivers && (
+          <LineSeparator text="Inativos" />
+        )}
+
+        {inactiveDrivers.map(driver => (
+          <ItemInactiveDriver driver={driver} />
+        ))}
       </div>
       <AddButton />
     </Modal>

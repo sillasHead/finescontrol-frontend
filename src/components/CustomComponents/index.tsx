@@ -1,4 +1,5 @@
 import { Button, ButtonBase, ButtonBaseProps, ButtonProps, Radio, RadioProps, TextField, withStyles } from '@material-ui/core'
+import styles from './styles.module.scss'
 
 export const AddButton = withStyles(({
   root: {
@@ -6,7 +7,7 @@ export const AddButton = withStyles(({
     '&:hover': {
       backgroundColor: 'var(--blue-700)',
     },
-    borderRadius: 10,
+    borderRadius: 'var(--default-border-radius)',
     padding: 10,
   },
 }))((props: ButtonProps) =>
@@ -17,7 +18,7 @@ export const AddButton = withStyles(({
 export const UpdateButton = withStyles(({
   root: {
     padding: 10,
-    borderRadius: 10,
+    borderRadius: 'var(--default-border-radius)',
   },
 }))((props: ButtonBaseProps) =>
   <ButtonBase {...props}>
@@ -27,11 +28,41 @@ export const UpdateButton = withStyles(({
 export const DeleteButton = withStyles(({
   root: {
     padding: 10,
-    borderRadius: 10,
+    borderRadius: 'var(--default-border-radius)',
   },
 }))((props: ButtonBaseProps) =>
   <ButtonBase {...props}>
-    <img src="/delete.svg" alt="Atualizar" />
+    <img src="/delete.svg" alt="Inativar" />
+  </ButtonBase>)
+
+export const AcceptButton = withStyles(({
+  root: {
+    padding: 10,
+    borderRadius: 'var(--default-border-radius)',
+  },
+}))((props: ButtonBaseProps) =>
+  <ButtonBase {...props}>
+    <img src="/accept.svg" alt="Atualizar" />
+  </ButtonBase>)
+
+export const DiscardButton = withStyles(({
+  root: {
+    padding: 10,
+    borderRadius: 'var(--default-border-radius)',
+  },
+}))((props: ButtonBaseProps) =>
+  <ButtonBase {...props}>
+    <img src="/discard.svg" alt="Descartar" />
+  </ButtonBase>)
+
+export const ReactivateButton = withStyles(({
+  root: {
+    padding: 10,
+    borderRadius: 'var(--default-border-radius)',
+  },
+}))((props: ButtonBaseProps) =>
+  <ButtonBase {...props}>
+    <img src="/reactivate.svg" alt="Reativar" />
   </ButtonBase>)
 
 export const NewFineButton = withStyles(({
@@ -106,3 +137,16 @@ export const CssRadio = withStyles({
   },
   checked: {},
 })((props: RadioProps) => <Radio color="default" {...props} />)
+
+type LineSeparatorProps = {
+  text: string
+}
+export function LineSeparator({ text }: LineSeparatorProps) {
+  return (
+    <div className={styles.lineSeparator}>
+      <div className={styles.line} />
+      <em>{text}</em>
+      <div className={styles.line} />
+    </div>
+  )
+}
