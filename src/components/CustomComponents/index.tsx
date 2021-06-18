@@ -1,4 +1,5 @@
 import { Button, ButtonBase, ButtonBaseProps, ButtonProps, Radio, RadioProps, TextField, withStyles } from '@material-ui/core'
+import { ReactNode } from 'react'
 import styles from './styles.module.scss'
 
 export const AddButton = withStyles(({
@@ -64,6 +65,15 @@ export const ReactivateButton = withStyles(({
   <ButtonBase {...props}>
     <img src="/reactivate.svg" alt="Reativar" />
   </ButtonBase>)
+
+export const TextButton = withStyles(({
+  root: {
+    padding: 10,
+    borderRadius: 'var(--default-border-radius)',
+    fontSize: 'var(--p)',
+    whiteSpace: 'nowrap',
+  },
+}))(ButtonBase)
 
 export const NewFineButton = withStyles(({
   root: {
@@ -139,13 +149,13 @@ export const CssRadio = withStyles({
 })((props: RadioProps) => <Radio color="default" {...props} />)
 
 type LineSeparatorProps = {
-  text: string
+  children: ReactNode
 }
-export function LineSeparator({ text }: LineSeparatorProps) {
+export function LineSeparator({ children }: LineSeparatorProps) {
   return (
     <div className={styles.lineSeparator}>
       <div className={styles.line} />
-      <em>{text}</em>
+        {children}
       <div className={styles.line} />
     </div>
   )

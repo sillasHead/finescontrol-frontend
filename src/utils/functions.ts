@@ -6,3 +6,7 @@ export function today(type: 'date' | 'datetime') {
   }
   return format(new Date(), 'yyyy-MM-dd HH:mm').split(' ').join('T')
 }
+
+export function getElementValue(id: string) {
+  return (document.getElementById(id) as HTMLSelectElement).value.toUpperCase().trim()
+}

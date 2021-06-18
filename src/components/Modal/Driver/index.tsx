@@ -1,9 +1,9 @@
 import Modal from 'components/Modal'
-import { AddButton, LineSeparator } from 'components/CustomComponents'
+import { AddButton, LineSeparator, TextButton } from 'components/CustomComponents'
 import { useEffect, useState } from 'react'
 import { api } from 'utils/api'
 import { Driver } from 'utils/types'
-import { ItemActiveDriver, ItemInactiveDriver } from './components/ItemDriver'
+import { AddDriver, ItemActiveDriver, ItemInactiveDriver } from './components/ItemDriver'
 import styles from './styles.module.scss'
 
 type Props = {
@@ -14,6 +14,9 @@ type Props = {
 export default function ModalDriver({ showModal, setShowModal }: Props) {
   const [activeDrivers, setActiveDrivers] = useState<Driver[]>([])
   const [inactiveDrivers, setInactiveDrivers] = useState<Driver[]>([])
+  const [showInactiveDrivers, setShowInactiveDrivers] = useState(false)
+  const [isAdding, setIsAdding] = useState(false)
+  const [driverChange, setDriverChange] = useState({})
 
   useEffect(() => {
     api.get('motoristas')
@@ -27,7 +30,19 @@ export default function ModalDriver({ showModal, setShowModal }: Props) {
       .catch(error => { //TODO melhorar o retorno de erro
         console.log('api.get => ', error)
       })
-  }, [activeDrivers])
+  }, [driverChange])
+
+  function handleSetIsAdding() {
+    setIsAdding(!isAdding)
+  }
+
+  function handleDriver(driver: Driver) {
+    setDriverChange(driver)
+  }
+
+  function handleShowInactiveDrivers() {
+    setShowInactiveDrivers(!showInactiveDrivers)
+  }
 
   return (
     <Modal
@@ -37,18 +52,26 @@ export default function ModalDriver({ showModal, setShowModal }: Props) {
     >
       <div className={styles.modalContent}>
         {activeDrivers.map(driver => (
-          <ItemActiveDriver driver={driver} />
+          <ItemActiveDriver driver={driver} handleDriver={handleDriver} />
         ))}
 
-        {inactiveDrivers && (
-          <LineSeparator text="Inativos" />
+        {isAdding && (
+          <AddDriver handleIsAdding={handleSetIsAdding} handleDriver={handleDriver} />
         )}
 
-        {inactiveDrivers.map(driver => (
-          <ItemInactiveDriver driver={driver} />
+        {inactiveDrivers && (
+          <LineSeparator>
+            <TextButton onClick={handleShowInactiveDrivers}>
+              {`${showInactiveDrivers ? 'Esconder' : 'Mostrar'} Inativos (${inactiveDrivers.length})`}
+            </TextButton>
+          </LineSeparator>
+        )}
+
+        {showInactiveDrivers && inactiveDrivers.map(driver => (
+          <ItemInactiveDriver driver={driver} handleDriver={handleDriver} />
         ))}
       </div>
-      <AddButton />
+      <AddButton onClick={handleSetIsAdding} />
     </Modal>
   )
 }

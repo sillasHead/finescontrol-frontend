@@ -4,12 +4,14 @@ import { useState } from 'react'
 import { api } from 'utils/api'
 import { Driver } from 'utils/types'
 import styles from './ItemDriver.module.scss'
+import { getElementValue } from 'utils/functions'
 
 type Props = {
   driver: Driver
+  handleDriver: (driver: Driver) => void
 }
 
-export function ItemActiveDriver({ driver }: Props) {
+export function ItemActiveDriver({ driver, handleDriver }: Props) {
 
   const [isEditing, setIsEditing] = useState(false)
 
@@ -26,6 +28,7 @@ export function ItemActiveDriver({ driver }: Props) {
       .then(() => {
         alert('Motorista atualizado com sucesso!')
         handleIsEditing()
+        handleDriver(driver)
       })
       .catch(error => {
         alert('Erro')
@@ -39,6 +42,7 @@ export function ItemActiveDriver({ driver }: Props) {
     api.put(`motoristas/${driver.id}`, driver)
       .then(() => {
         alert('Motorista inativado com sucesso')
+        handleDriver(driver)
       })
       .catch(error => {
         alert('Erro')
@@ -73,7 +77,7 @@ export function ItemActiveDriver({ driver }: Props) {
   )
 }
 
-export function ItemInactiveDriver({ driver }: Props) {
+export function ItemInactiveDriver({ driver, handleDriver: handleTest }: Props) {
 
   function reactivateDriver() {
     driver.status = true
@@ -81,19 +85,59 @@ export function ItemInactiveDriver({ driver }: Props) {
     api.put(`motoristas/${driver.id}`, driver)
       .then(() => {
         alert('Motorista reativado com sucesso')
+        handleTest(driver)
       })
       .catch(error => {
         alert('Erro')
         console.log('reativando => ', error)
       })
   }
-  
+
   return (
     <Item flexDirection='row' alignItems='center' key={driver.id} inactive>
       <>
         <span>{driver.name}</span>
         <div>
           <ReactivateButton onClick={reactivateDriver} />
+        </div>
+      </>
+    </Item>
+  )
+}
+
+type AddDriverProps = {
+  handleIsAdding: () => void
+  handleDriver: (driver: Driver) => void
+}
+
+export function AddDriver({ handleIsAdding, handleDriver }: AddDriverProps) {
+  
+  function insertDriver() {
+    const driverName = getElementValue('newDriver')
+    const driver: Driver = { name: driverName, status: true, id: 0 }
+    api.post('motoristas', driver)
+      .then(response => {
+        alert('Motorista adicionado com sucesso')
+        handleDriver(response.data)
+        handleIsAdding()
+      })
+      .catch(error => {
+        alert('erro')
+        console.log('api.post => ', error)
+      })
+  }
+
+  return (
+    <Item flexDirection='row' alignItems='center'>
+      <>
+        <CssTextField
+          id={'newDriver'}
+          className={styles.inputDriver}
+          label='Novo motorista'
+        />
+        <div>
+          <AcceptButton onClick={insertDriver} />
+          <DiscardButton onClick={handleIsAdding} />
         </div>
       </>
     </Item>

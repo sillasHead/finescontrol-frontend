@@ -14,6 +14,7 @@
   --white: #fff;
   --gray-100: #f2f2f2;
   --gray-400: #b5b5b5;
+  --gray-500: #949494;
   --gray-800: #3b3b3b;
   --gray-900: #2c2c2c;
   --black: #000;
@@ -73,6 +74,7 @@ input {
   font-family: 'Roboto';
   font-weight: 400;
   font-size: var(--p);
+  text-transform: uppercase;
 }
 
 img {
@@ -95,4 +97,8 @@ img {
   margin: 10px;
   border-radius: var(--default-border-radius);
   border: 4px solid var(--white);
+  
+  &:hover {
+    background: var(--gray-500);
+  }
 }

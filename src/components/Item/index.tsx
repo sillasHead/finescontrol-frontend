@@ -48,7 +48,7 @@ export function FineItem() {
         </span>
 
         <span className={styles.w25}>
-          <strong>Prazo para indicação do condutor:&nbsp;</strong>01/01/2021
+          <strong>Prazo para indicação:&nbsp;</strong>01/01/2021
         </span>
       </div>
 
