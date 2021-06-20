@@ -1,5 +1,5 @@
 import { Item } from 'components/Item'
-import { AcceptButton, CssTextField, DeleteButton, DiscardButton, ReactivateButton, UpdateButton } from 'components/CustomComponents'
+import { ButtonAccept, TextFieldBlue, ButtonDelete, ButtonDiscard, ButtonReactivate, ButtonUpdate } from 'components/CustomComponents'
 import { useState } from 'react'
 import { api } from 'utils/api'
 import { Driver } from 'utils/types'
@@ -22,7 +22,7 @@ export function ItemActiveDriver({ driver, handleDriver }: Props) {
   }
 
   function acceptEdit() {
-    driver.name = (document.getElementById(`driver_${driver.id}`) as HTMLSelectElement).value.toUpperCase().trim()
+    driver.name = getElementValue('name')
     // TODO validar se houve alguma alteracao antes de efetuar o put
     api.put(`motoristas/${driver.id}`, driver)
       .then(() => {
@@ -56,20 +56,20 @@ export function ItemActiveDriver({ driver, handleDriver }: Props) {
         <>
           <span>{driver.name}</span>
           <div>
-            <UpdateButton onClick={handleIsEditing} />
-            <DeleteButton onClick={inactivateDriver} />
+            <ButtonUpdate onClick={handleIsEditing} />
+            <ButtonDelete onClick={inactivateDriver} />
           </div>
         </>
       ) : (
         <>
-          <CssTextField
-            id={`driver_${driver.id}`}
+          <TextFieldBlue
+            id='name'
             defaultValue={driver.name}
             className={styles.inputDriver}
           />
           <div>
-            <AcceptButton onClick={acceptEdit} />
-            <DiscardButton onClick={handleIsEditing} />
+            <ButtonAccept onClick={acceptEdit} />
+            <ButtonDiscard onClick={handleIsEditing} />
           </div>
         </>
       )}
@@ -98,7 +98,7 @@ export function ItemInactiveDriver({ driver, handleDriver: handleTest }: Props) 
       <>
         <span>{driver.name}</span>
         <div>
-          <ReactivateButton onClick={reactivateDriver} />
+          <ButtonReactivate onClick={reactivateDriver} />
         </div>
       </>
     </Item>
@@ -113,8 +113,12 @@ type AddDriverProps = {
 export function AddDriver({ handleIsAdding, handleDriver }: AddDriverProps) {
   
   function insertDriver() {
-    const driverName = getElementValue('newDriver')
-    const driver: Driver = { name: driverName, status: true, id: 0 }
+    const driverName = getElementValue('name')
+    const driver: Driver = { 
+      id: 0,
+      name: driverName, 
+      status: true, 
+    }
     api.post('motoristas', driver)
       .then(response => {
         alert('Motorista adicionado com sucesso')
@@ -130,14 +134,14 @@ export function AddDriver({ handleIsAdding, handleDriver }: AddDriverProps) {
   return (
     <Item flexDirection='row' alignItems='center'>
       <>
-        <CssTextField
-          id={'newDriver'}
+        <TextFieldBlue
+          id='name'
           className={styles.inputDriver}
           label='Novo motorista'
         />
         <div>
-          <AcceptButton onClick={insertDriver} />
-          <DiscardButton onClick={handleIsAdding} />
+          <ButtonAccept onClick={insertDriver} />
+          <ButtonDiscard onClick={handleIsAdding} />
         </div>
       </>
     </Item>

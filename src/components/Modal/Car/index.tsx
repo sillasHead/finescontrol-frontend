@@ -1,6 +1,10 @@
-import { AddButton, DeleteButton, UpdateButton } from 'components/CustomComponents'
+import { ButtonAdd, ButtonDelete, LineSeparator, ButtonText, ButtonUpdate } from 'components/CustomComponents'
 import { CompleteItem } from 'components/Item'
 import Modal from 'components/Modal'
+import { useEffect, useState } from 'react'
+import { api } from 'utils/api'
+import { Car } from 'utils/types'
+import { AddCar, ItemActiveCar, ItemInactiveCar } from './components/ItemCar'
 import styles from './styles.module.scss'
 
 type Props = {
@@ -9,6 +13,38 @@ type Props = {
 }
 
 export default function ModalCar({ showModal, setShowModal }: Props) {
+  const [activeCars, setActiveCars] = useState<Car[]>([])
+  const [inactiveCars, setInactiveCars] = useState<Car[]>([])
+  const [showInactiveCars, setShowInactiveCars] = useState(false)
+  const [isAdding, setIsAdding] = useState(false)
+  const [carChange, setCarChange] = useState({})
+  
+  useEffect(() => {
+    api.get('carros')
+      .then(response => {
+        const activeCars = (response.data as Car[]).filter(car => car.status)
+        setActiveCars(activeCars)
+
+        const inactiveCars = (response.data as Car[]).filter(car => !car.status)
+        setInactiveCars(inactiveCars)
+      })
+      .catch(error => { //TODO melhorar o retorno de erro
+        console.log('api.get => ', error)
+      })
+  }, [carChange])
+  
+  function handleSetIsAdding() {
+    setIsAdding(!isAdding)
+  }
+
+  function handleCar(car: Car) {
+    setCarChange(car)
+  }
+
+  function handleShowInactiveCars() {
+    setShowInactiveCars(!showInactiveCars)
+  }
+
   return (
     <Modal
       showModal={showModal}
@@ -16,22 +52,27 @@ export default function ModalCar({ showModal, setShowModal }: Props) {
       title={'Carros'}
     >
       <div className={styles.modalContent}>
-        <CompleteItem paddingContent={5}>
-          <div className={styles.formContent}>
-            <span>
-              <strong>Placa:&nbsp;</strong> AAA1234
-            </span>
-            <span>
-              <strong>Renavam:&nbsp;</strong> 20278104031
-            </span>
-            <div>
-              <UpdateButton />
-              <DeleteButton />
-            </div>
-          </div>
-        </CompleteItem>
+        {activeCars.map(car => 
+          <ItemActiveCar car={car} handleCar={handleCar} />
+        )}
+
+        {inactiveCars.length > 0 && (
+          <LineSeparator>
+            <ButtonText onClick={handleShowInactiveCars}>
+              {`${showInactiveCars ? 'Esconder' : 'Mostrar'} Inativos (${inactiveCars.length})`}
+            </ButtonText>
+          </LineSeparator>
+        )}
+
+        {isAdding && (
+          <AddCar handleCar={handleCar} handleIsAdding={handleSetIsAdding} />
+        )}
+
+        {showInactiveCars && inactiveCars.map(car => (
+          <ItemInactiveCar car={car} handleCar={handleCar} />
+        ))}
       </div>
-      <AddButton />
+      <ButtonAdd onClick={handleSetIsAdding} />
     </Modal>
   )
 }

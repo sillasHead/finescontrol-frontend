@@ -3,14 +3,18 @@ import styles from './styles.module.scss'
 type CompleteItemProps = {
   children: React.ReactNode
   paddingContent?: number
+  title: React.ReactNode
+  inactive?: boolean
 }
 
-export function CompleteItem({ children, paddingContent }: CompleteItemProps) {
+export function CompleteItem({ children, paddingContent, title, inactive }: CompleteItemProps) {
   return (
-    <div className={styles.itemContainer}>
-      <div className={styles.itemHeader}>teste</div>
+    <div className={`${styles.itemContainer} ${inactive ? styles.inactive : ''}`}>
+      <div className={`${styles.itemHeader} ${inactive ? styles.inactive : ''}`}>
+        {title}
+      </div>
       <div
-        className={styles.itemContent}
+        className={`${styles.itemContent} ${inactive ? styles.inactive : ''}`}
         style={{
           padding: paddingContent
         }}
@@ -85,7 +89,7 @@ export function MenuItem({ selected, title, setShowModal }: MenuItemProps) {
       <div className={`${styles.menuItem} ${selected ? styles.selected : ''}`} onClick={setShowModal ? () => setShowModal(true) : () => Function}>
         <p>{title}</p>
       </div>
-      <div className={styles.lineSeparator} />
+      {/* <div className={styles.lineSeparator} /> //TODO */}
     </>
   )
 }

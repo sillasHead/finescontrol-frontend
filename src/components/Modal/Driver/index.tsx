@@ -1,5 +1,5 @@
 import Modal from 'components/Modal'
-import { AddButton, LineSeparator, TextButton } from 'components/CustomComponents'
+import { ButtonAdd, LineSeparator, ButtonText } from 'components/CustomComponents'
 import { useEffect, useState } from 'react'
 import { api } from 'utils/api'
 import { Driver } from 'utils/types'
@@ -59,11 +59,11 @@ export default function ModalDriver({ showModal, setShowModal }: Props) {
           <AddDriver handleIsAdding={handleSetIsAdding} handleDriver={handleDriver} />
         )}
 
-        {inactiveDrivers && (
+        {inactiveDrivers.length > 0 && (
           <LineSeparator>
-            <TextButton onClick={handleShowInactiveDrivers}>
+            <ButtonText onClick={handleShowInactiveDrivers}>
               {`${showInactiveDrivers ? 'Esconder' : 'Mostrar'} Inativos (${inactiveDrivers.length})`}
-            </TextButton>
+            </ButtonText>
           </LineSeparator>
         )}
 
@@ -71,7 +71,7 @@ export default function ModalDriver({ showModal, setShowModal }: Props) {
           <ItemInactiveDriver driver={driver} handleDriver={handleDriver} />
         ))}
       </div>
-      <AddButton onClick={handleSetIsAdding} />
+      <ButtonAdd onClick={handleSetIsAdding} />
     </Modal>
   )
 }

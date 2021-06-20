@@ -11,7 +11,11 @@ function App() {
       <main>
         <Menu />
         <Background>
-          <CompleteItem>
+          <CompleteItem
+            title={
+              <span>CLAUDIO</span>
+            }
+          >
             <FineItem />
           </CompleteItem>
         </Background>

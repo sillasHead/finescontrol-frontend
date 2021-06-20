@@ -1,9 +1,9 @@
 export type Car = {
   id: number
   plate: string
-  brand: string
-  color: string
+  name: string
   renavam: string
+  status: boolean
 }
 
 export type Driver = {

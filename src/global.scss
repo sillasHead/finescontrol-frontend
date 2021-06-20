@@ -17,7 +17,7 @@
   --gray-500: #949494;
   --gray-800: #3b3b3b;
   --gray-900: #2c2c2c;
-  --black: #000;
+  --black: #212121;
 
   --orange-300: #ff8756;
   --orange-400: #e2774c;
@@ -61,6 +61,7 @@ body {
   background: var(--white);
   font-family: 'Roboto';
   font-weight: 400;
+  color: var(--black)
 }
 
 button {

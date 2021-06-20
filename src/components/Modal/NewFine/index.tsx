@@ -1,6 +1,6 @@
 import { FormControlLabel, RadioGroup } from '@material-ui/core'
 import Modal from 'components/Modal'
-import { BlueButton, CssRadio, CssTextField, GrayButton, OrangeButton } from 'components/CustomComponents'
+import { ButtonBlue, CssRadio, TextFieldBlue, ButtonGray, ButtonOrange } from 'components/CustomComponents'
 import { useState } from 'react'
 import { today } from 'utils/functions'
 import styles from './styles.module.scss'
@@ -28,12 +28,12 @@ export default function ModalNewFine({ showModal, setShowModal }: Props) {
     >
       <div /* action='' method='post' */ className={styles.modalContent}>
         <div className={styles.line}>
-          <CssTextField label="Descrição" style={{ width: '80%' }} />
-          <CssTextField label="Valor" value={amount} onKeyUp={() => Function} style={{ width: '15%' }} />
+          <TextFieldBlue label="Descrição" style={{ width: '80%' }} />
+          <TextFieldBlue label="Valor" value={amount} onKeyUp={() => Function} style={{ width: '15%' }} />
         </div>
         <div className={styles.line}>
-          <CssTextField label="AIT" style={{ width: 300 }} />
-          <CssTextField
+          <TextFieldBlue label="AIT" style={{ width: 300 }} />
+          <TextFieldBlue
             style={{ width: 190 }}
             label="Momento da infração"
             type="datetime-local"
@@ -45,8 +45,8 @@ export default function ModalNewFine({ showModal, setShowModal }: Props) {
           />
         </div>
         <div className={styles.line}>
-          <CssTextField label="Motorista" style={{ width: 300 }} />
-          <CssTextField label="Carro" style={{ width: 300 }} />
+          <TextFieldBlue label="Motorista" style={{ width: 300 }} />
+          <TextFieldBlue label="Carro" style={{ width: 300 }} />
         </div>
 
         <div className={styles.line}>
@@ -59,7 +59,7 @@ export default function ModalNewFine({ showModal, setShowModal }: Props) {
               <FormControlLabel value="n" control={<CssRadio color="default" />} label="Não Indicado" />
             </RadioGroup>
           </div>
-          <CssTextField
+          <TextFieldBlue
             label="Prazo"
             type="date"
             defaultValue={dueDate}
@@ -67,7 +67,7 @@ export default function ModalNewFine({ showModal, setShowModal }: Props) {
               shrink: true,
             }}
           />
-          <CssTextField
+          <TextFieldBlue
             label="Pagamento"
             type="date"
             defaultValue={paymentDate}
@@ -77,16 +77,16 @@ export default function ModalNewFine({ showModal, setShowModal }: Props) {
           />
         </div>
         <div className={styles.line}>
-          <OrangeButton variant={'contained'}>
+          <ButtonOrange variant={'contained'}>
             Gerar aviso de multa
-          </OrangeButton>
+          </ButtonOrange>
           <div className={styles.cancelOrSave}>
-            <GrayButton variant={'contained'} onClick={() => setShowModal(false)}>
+            <ButtonGray variant={'contained'} onClick={() => setShowModal(false)}>
               Cancelar
-            </GrayButton>
-            <BlueButton variant={'contained'}>
+            </ButtonGray>
+            <ButtonBlue variant={'contained'}>
               Salvar
-            </BlueButton>
+            </ButtonBlue>
           </div>
         </div>
       </div>

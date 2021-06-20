@@ -2,7 +2,7 @@ import { Button, ButtonBase, ButtonBaseProps, ButtonProps, Radio, RadioProps, Te
 import { ReactNode } from 'react'
 import styles from './styles.module.scss'
 
-export const AddButton = withStyles(({
+export const ButtonAdd = withStyles(({
   root: {
     backgroundColor: 'var(--blue-600)',
     '&:hover': {
@@ -16,7 +16,7 @@ export const AddButton = withStyles(({
     <img src="/add.svg" alt="Adicionar" />
   </Button>)
 
-export const UpdateButton = withStyles(({
+export const ButtonUpdate = withStyles(({
   root: {
     padding: 10,
     borderRadius: 'var(--default-border-radius)',
@@ -26,7 +26,7 @@ export const UpdateButton = withStyles(({
     <img src="/update.svg" alt="Atualizar" />
   </ButtonBase>)
 
-export const DeleteButton = withStyles(({
+export const ButtonDelete = withStyles(({
   root: {
     padding: 10,
     borderRadius: 'var(--default-border-radius)',
@@ -36,7 +36,7 @@ export const DeleteButton = withStyles(({
     <img src="/delete.svg" alt="Inativar" />
   </ButtonBase>)
 
-export const AcceptButton = withStyles(({
+export const ButtonAccept = withStyles(({
   root: {
     padding: 10,
     borderRadius: 'var(--default-border-radius)',
@@ -46,7 +46,7 @@ export const AcceptButton = withStyles(({
     <img src="/accept.svg" alt="Atualizar" />
   </ButtonBase>)
 
-export const DiscardButton = withStyles(({
+export const ButtonDiscard = withStyles(({
   root: {
     padding: 10,
     borderRadius: 'var(--default-border-radius)',
@@ -56,7 +56,7 @@ export const DiscardButton = withStyles(({
     <img src="/discard.svg" alt="Descartar" />
   </ButtonBase>)
 
-export const ReactivateButton = withStyles(({
+export const ButtonReactivate = withStyles(({
   root: {
     padding: 10,
     borderRadius: 'var(--default-border-radius)',
@@ -66,7 +66,7 @@ export const ReactivateButton = withStyles(({
     <img src="/reactivate.svg" alt="Reativar" />
   </ButtonBase>)
 
-export const TextButton = withStyles(({
+export const ButtonText = withStyles(({
   root: {
     padding: 10,
     borderRadius: 'var(--default-border-radius)',
@@ -75,7 +75,7 @@ export const TextButton = withStyles(({
   },
 }))(ButtonBase)
 
-export const NewFineButton = withStyles(({
+export const ButtonNewFine = withStyles(({
   root: {
     position: 'fixed',
     width: '75px',
@@ -97,7 +97,7 @@ export const NewFineButton = withStyles(({
     <img src="/add.svg" alt="Adicionar" />
   </Button>)
 
-export const BlueButton = withStyles(({
+export const ButtonBlue = withStyles(({
   root: {
     color: 'var(--white)',
     backgroundColor: 'var(--blue-600)',
@@ -107,7 +107,7 @@ export const BlueButton = withStyles(({
   },
 }))(Button)
 
-export const OrangeButton = withStyles(({
+export const ButtonOrange = withStyles(({
   root: {
     color: 'var(--white)',
     backgroundColor: 'var(--orange-300)',
@@ -117,7 +117,7 @@ export const OrangeButton = withStyles(({
   },
 }))(Button)
 
-export const GrayButton = withStyles(({
+export const ButtonGray = withStyles(({
   root: {
     color: 'var(--white)',
     backgroundColor: 'var(--gray-800)',
@@ -127,13 +127,24 @@ export const GrayButton = withStyles(({
   },
 }))(Button)
 
-export const CssTextField = withStyles({
+export const TextFieldBlue = withStyles({
   root: {
     '& label.Mui-focused': {
       color: 'var(--blue-600)',
     },
     '& .MuiInput-underline:after': {
       borderBottomColor: 'var(--blue-600)',
+    },
+  },
+})(TextField)
+
+export const TextFieldGray = withStyles({
+  root: {
+    '& label.Mui-focused': {
+      color: 'var(--gray-800)',
+    },
+    '& .MuiInput-underline:after': {
+      borderBottomColor: 'var(--gray-800)',
     },
   },
 })(TextField)

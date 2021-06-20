@@ -1,5 +1,5 @@
 import ModalNewFine from 'components/Modal/NewFine'
-import { NewFineButton } from 'components/CustomComponents'
+import { ButtonNewFine } from 'components/CustomComponents'
 import { useState } from 'react'
 import styles from './styles.module.scss'
 
@@ -14,7 +14,7 @@ export default function Background({ children }: Props) {
     <>
       <div className={styles.backgroundContainer}>
         {children}
-        <NewFineButton onClick={() => setShowModal(true)} />
+        <ButtonNewFine onClick={() => setShowModal(true)} />
       </div>
       <ModalNewFine
         showModal={showModal}

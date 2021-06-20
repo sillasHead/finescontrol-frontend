@@ -1,4 +1,4 @@
-import { AddButton, DeleteButton, UpdateButton } from 'components/CustomComponents'
+import { ButtonAdd, ButtonDelete, ButtonUpdate } from 'components/CustomComponents'
 import { Item } from 'components/Item'
 import Modal from 'components/Modal'
 import styles from './styles.module.scss'
@@ -34,12 +34,12 @@ export default function ModalInfraction({ showModal, setShowModal }: Props) {
             </div>
           </div>
           <div className={styles.buttons}>
-              <UpdateButton />
-              <DeleteButton />
+              <ButtonUpdate />
+              <ButtonDelete />
           </div>
         </Item>
       </div>
-      <AddButton />
+      <ButtonAdd />
     </Modal>
   )
 }

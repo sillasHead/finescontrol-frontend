@@ -1,0 +1,31 @@
+.formContent {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  margin: 0 10px;
+
+  span {
+    font-weight: bold;
+  }
+}
+
+.item {
+  display: flex;
+  align-items: center;
+}
+
+.title {
+  input {
+    color: var(--orange-700);
+    font-weight: bold;
+    background: var(--white);
+    
+    padding: 0 5px;
+    
+    &::placeholder {
+      font-weight: normal;
+      text-transform: capitalize;
+    }
+  }
+}
