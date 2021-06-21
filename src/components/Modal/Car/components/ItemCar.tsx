@@ -22,9 +22,9 @@ export function ItemActiveCar({ car, handleCar }: Props) {
   }
 
   function acceptEdit() { // TODO
-    car.name = getElementValue('name')
-    car.plate = getElementValue('plate')
-    car.renavam = getElementValue('renavam')
+    car.name = getElementValue('name', 'uppercase')
+    car.plate = getElementValue('plate', 'uppercase')
+    car.renavam = getElementValue('renavam', 'uppercase')
 
     // TODO validar se houve alguma alteracao antes de efetuar o put
     api.put(`carros/${car.id}`, car)
@@ -71,10 +71,10 @@ export function ItemActiveCar({ car, handleCar }: Props) {
       <div className={styles.formContent}>
         {!isEditing ? (
           <>
-            <div>
+            <div className={styles.item}>
               <span>Placa:&nbsp;</span> {car.plate}
             </div>
-            <div>
+            <div className={styles.item}>
               <span>Renavam:&nbsp;</span> {car.renavam}
             </div>
             <div>
@@ -158,16 +158,17 @@ type AddCarProps = {
 export function AddCar({ handleIsAdding, handleCar }: AddCarProps) {
 
   function insertCar() {
-    const carName = getElementValue('name')
-    const carPlate = getElementValue('plate')
-    const carRenavam = getElementValue('renavam')
+    const name = getElementValue('name', 'uppercase')
+    const plate = getElementValue('plate', 'uppercase')
+    const renavam = getElementValue('renavam', 'uppercase')
     const car: Car = {
       id: 0,
-      name: carName,
-      plate: carPlate,
-      renavam: carRenavam,
+      name: name,
+      plate: plate,
+      renavam: renavam,
       status: true,
     }
+
     api.post('carros', car)
       .then(response => {
         alert('Carro adicionado com sucesso')

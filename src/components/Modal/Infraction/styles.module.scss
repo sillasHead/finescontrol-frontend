@@ -2,24 +2,4 @@
   height: 500px;
   padding: 5px;
   overflow: auto;
-
-  .buttons {
-    display: flex;
-  }
-}
-
-.itemContent {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  width: 75%;
-  span {
-    word-wrap: break-word;
-    text-align: justify;
-  }
-}
-
-.more {
-  display: flex;
-  justify-content: space-between;
 }

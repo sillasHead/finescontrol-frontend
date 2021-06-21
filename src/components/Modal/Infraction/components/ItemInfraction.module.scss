@@ -1,0 +1,53 @@
+.itemContent {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 80%;
+
+  span {
+    font-weight: bold;
+  }
+
+  input {
+    text-transform: none;
+    padding: 0;
+  }
+}
+
+.description {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  word-wrap: break-word;
+  text-align: justify;
+
+  input {
+    width: 100%;
+  }
+}
+
+.more {
+  display: flex;
+  justify-content: space-between;
+
+  div {
+    display: flex;
+    align-items: center;
+  }
+}
+
+.type {
+  width: 150px;
+}
+
+.rating {
+  width: 125px;
+}
+
+.amount {
+  width: 150px;
+}
+
+.buttons {
+  display: flex;
+}

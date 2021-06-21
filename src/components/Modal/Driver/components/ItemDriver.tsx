@@ -12,7 +12,6 @@ type Props = {
 }
 
 export function ItemActiveDriver({ driver, handleDriver }: Props) {
-
   const [isEditing, setIsEditing] = useState(false)
 
   function handleIsEditing() {
@@ -22,7 +21,7 @@ export function ItemActiveDriver({ driver, handleDriver }: Props) {
   }
 
   function acceptEdit() {
-    driver.name = getElementValue('name')
+    driver.name = getElementValue('name', 'uppercase')
     // TODO validar se houve alguma alteracao antes de efetuar o put
     api.put(`motoristas/${driver.id}`, driver)
       .then(() => {
@@ -113,12 +112,13 @@ type AddDriverProps = {
 export function AddDriver({ handleIsAdding, handleDriver }: AddDriverProps) {
   
   function insertDriver() {
-    const driverName = getElementValue('name')
+    const name = getElementValue('name', 'uppercase')
     const driver: Driver = { 
       id: 0,
-      name: driverName, 
+      name: name, 
       status: true, 
     }
+    
     api.post('motoristas', driver)
       .then(response => {
         alert('Motorista adicionado com sucesso')

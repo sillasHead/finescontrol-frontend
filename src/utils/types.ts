@@ -26,4 +26,5 @@ export type Infraction = {
   description: string
   amount: number
   type: string
+  rating: number
 }
