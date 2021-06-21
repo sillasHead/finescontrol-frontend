@@ -19,7 +19,7 @@ export default function ModalDriver({ showModal, setShowModal }: Props) {
   const [driverChange, setDriverChange] = useState({})
 
   useEffect(() => {
-    api.get('motoristas')
+    api.get('motoristas') //TODO melhorar a busca
       .then(response => {
         const activeDrivers = (response.data as Driver[]).filter(driver => driver.status)
         setActiveDrivers(activeDrivers)
@@ -52,7 +52,7 @@ export default function ModalDriver({ showModal, setShowModal }: Props) {
     >
       <div className={styles.modalContent}>
         {activeDrivers.map(driver => (
-          <ItemActiveDriver driver={driver} handleDriver={handleDriver} />
+          <ItemActiveDriver driver={driver} handleDriver={handleDriver} key={driver.id} />
         ))}
 
         {isAdding && (

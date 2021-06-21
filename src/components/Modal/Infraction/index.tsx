@@ -52,7 +52,7 @@ export default function ModalInfraction({ showModal, setShowModal }: Props) {
     >
       <div className={styles.modalContent}>
         {infractions.map(infraction => (
-          <ItemInfraction infraction={infraction} handleInfraction={handleInfraction} />
+          <ItemInfraction infraction={infraction} handleInfraction={handleInfraction} key={infraction.id} />
         ))}
 
         {isAdding && (

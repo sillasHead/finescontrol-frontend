@@ -1,8 +1,11 @@
-import { FormControlLabel, RadioGroup } from '@material-ui/core'
+import { FormControlLabel, InputAdornment, RadioGroup } from '@material-ui/core'
+import { Autocomplete } from '@material-ui/lab'
+import { ButtonBlue, ButtonGray, ButtonOrange, CssRadio, TextFieldBlue } from 'components/CustomComponents'
 import Modal from 'components/Modal'
-import { ButtonBlue, CssRadio, TextFieldBlue, ButtonGray, ButtonOrange } from 'components/CustomComponents'
-import { useState } from 'react'
-import { today } from 'utils/functions'
+import { useEffect, useState } from 'react'
+import { api, getCars, getDrivers, getInfractions } from 'utils/api'
+import { getElementValue, today } from 'utils/functions'
+import { Car, Driver, Fine, Infraction } from 'utils/types'
 import styles from './styles.module.scss'
 
 type Props = {
@@ -11,13 +14,77 @@ type Props = {
 }
 
 export default function ModalNewFine({ showModal, setShowModal }: Props) {
-  const [infractionMoment, setInfractionMoment] = useState<string | null>(today('datetime'))
-  const [dueDate, setDueDate] = useState<string | null>(today('date'))
-  const [paymentDate, setPaymentDate] = useState<string | null>(today('date'))
-  const [amount, setAmount] = useState('0,00')
+  const [infractionMoment, setInfractionMoment] = useState<string>(today('datetime'))
+  const [dueDate, setDueDate] = useState<string>(today('date'))
+  const [paymentDate, setPaymentDate] = useState<string>(today('date'))
+  const [amount, setAmount] = useState(0)
+  const [identifiedDriver, setIdentifiedDriver] = useState<boolean>()
+  const [cars, setCars] = useState<Car[]>([])
+  const [drivers, setDrivers] = useState<Driver[]>([])
+  const [infractions, setInfractions] = useState<Infraction[]>([])
+  const [car, setCar] = useState<Car>()
+  const [driver, setDriver] = useState<Driver>()
+  const [infraction, setInfraction] = useState<Infraction>()
 
-  function handleDateChange(newDateString: string) {
-    setInfractionMoment(newDateString)
+  useEffect(() => {
+    getCars(setCars)
+    getDrivers(setDrivers)
+    getInfractions(setInfractions)
+  }, [showModal])
+
+  function handleInfraction(selectedInfraction: Infraction) {
+    setInfraction(selectedInfraction)
+    setAmount(selectedInfraction.amount)
+  }
+
+  function handleDriver(selectedDriver: Driver) {
+    setDriver(selectedDriver)
+  }
+
+  function handleCar(selectedCar: Car) {
+    setCar(selectedCar)
+  }
+
+  function handleMomentChange(newDateTimeString: string) {
+    setInfractionMoment(newDateTimeString)
+  }
+
+  function handleDueDateChange(newDateString: string) {
+    setDueDate(newDateString)
+  }
+
+  function handlePaymentDateChange(newDateString: string) {
+    setPaymentDate(newDateString)
+  }
+
+  function handleRadio(select: string) {
+    select === 'true' ? 
+    setIdentifiedDriver(true) :
+    setIdentifiedDriver(false)
+  }
+
+  function insertFine() {
+    car && driver && infraction && identifiedDriver && 
+    api.post('multas', {
+      id: 0,
+      aitCode: getElementValue('aitCode', 'uppercase'),
+      amount: amount,
+      car: car,
+      driver: driver,
+      identifiedDriver: identifiedDriver,
+      infraction: infraction,
+      dueDate: new Date(dueDate),
+      moment: new Date(infractionMoment),
+      paymentDate: new Date(paymentDate),
+    } as Fine)
+      .then(response => {
+        alert('Multa adicionada com sucesso')
+        console.log(response.data)
+      })
+      .catch(error => {
+        alert('erro')
+        console.log('api.post => ', error)
+      })
   }
 
   return (
@@ -26,27 +93,53 @@ export default function ModalNewFine({ showModal, setShowModal }: Props) {
       setShowModal={setShowModal}
       title={'Nova Multa'}
     >
-      <div /* action='' method='post' */ className={styles.modalContent}>
+      <div /* action='' method='post' //TODO utilizar form talvez */ className={styles.modalContent}>
         <div className={styles.line}>
-          <TextFieldBlue label="Descrição" style={{ width: '80%' }} />
-          <TextFieldBlue label="Valor" value={amount} onKeyUp={() => Function} style={{ width: '15%' }} />
+          <Autocomplete
+            options={infractions}
+            getOptionLabel={(infraction) => infraction.description}
+            style={{ width: '80%' }}
+            renderInput={(params) => <TextFieldBlue {...params} label='Infração' variant='standard' />}
+            onChange={(e, infraction) => infraction && handleInfraction(infraction)}
+          />
+          <TextFieldBlue
+            label='Valor'
+            value={amount}
+            onKeyUp={() => Function}
+            style={{ width: '15%' }}
+            InputProps={{
+              startAdornment: <InputAdornment position="start">R$</InputAdornment>
+            }}
+          />
         </div>
         <div className={styles.line}>
-          <TextFieldBlue label="AIT" style={{ width: 300 }} />
+          <TextFieldBlue id='aitCode' label='AIT' style={{ width: 300 }} />
           <TextFieldBlue
             style={{ width: 190 }}
-            label="Momento da infração"
-            type="datetime-local"
+            label='Momento da infração'
+            type='datetime-local'
             defaultValue={infractionMoment}
-            onChange={e => handleDateChange(e.target.value)}
+            onChange={e => handleMomentChange(e.target.value)}
             InputLabelProps={{
               shrink: true,
             }}
           />
         </div>
         <div className={styles.line}>
-          <TextFieldBlue label="Motorista" style={{ width: 300 }} />
-          <TextFieldBlue label="Carro" style={{ width: 300 }} />
+          <Autocomplete
+            options={drivers}
+            getOptionLabel={(driver) => driver.name}
+            style={{ width: 300 }}
+            renderInput={(params) => <TextFieldBlue {...params} label='Motorista' variant='standard' />}
+            onChange={(e, driver) => driver && handleDriver(driver)}
+          />
+          <Autocomplete
+            options={cars}
+            getOptionLabel={(car) => car.name}
+            style={{ width: 300 }}
+            renderInput={(params) => <TextFieldBlue {...params} label='Carro' variant='standard' />}
+            onChange={(e, car) => car && handleCar(car)}
+          />
         </div>
 
         <div className={styles.line}>
@@ -54,23 +147,31 @@ export default function ModalNewFine({ showModal, setShowModal }: Props) {
             <span>
               <strong>Indicação da Habilitação</strong>
             </span>
-            <RadioGroup row aria-label="position" name="position" defaultValue="top" >
-              <FormControlLabel value="y" control={<CssRadio color="default" />} label="Indicado" />
-              <FormControlLabel value="n" control={<CssRadio color="default" />} label="Não Indicado" />
+            <RadioGroup
+              row
+              aria-label='position'
+              name='position'
+              defaultValue='top'
+              onChange={(e, value) => handleRadio(e.target.value)}
+            >
+              <FormControlLabel value='true' control={<CssRadio color='default' />} label='Indicado' />
+              <FormControlLabel value='false' control={<CssRadio color='default' />} label='Não Indicado' />
             </RadioGroup>
           </div>
           <TextFieldBlue
-            label="Prazo"
-            type="date"
+            label='Prazo'
+            type='date'
             defaultValue={dueDate}
+            onChange={e => handleDueDateChange(e.target.value)}
             InputLabelProps={{
               shrink: true,
             }}
           />
           <TextFieldBlue
-            label="Pagamento"
-            type="date"
+            label='Pagamento'
+            type='date'
             defaultValue={paymentDate}
+            onChange={e => handlePaymentDateChange(e.target.value)}
             InputLabelProps={{
               shrink: true,
             }}
@@ -84,7 +185,7 @@ export default function ModalNewFine({ showModal, setShowModal }: Props) {
             <ButtonGray variant={'contained'} onClick={() => setShowModal(false)}>
               Cancelar
             </ButtonGray>
-            <ButtonBlue variant={'contained'}>
+            <ButtonBlue variant={'contained'} onClick={insertFine}>
               Salvar
             </ButtonBlue>
           </div>

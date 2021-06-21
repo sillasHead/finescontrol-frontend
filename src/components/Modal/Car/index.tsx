@@ -1,5 +1,4 @@
-import { ButtonAdd, ButtonDelete, LineSeparator, ButtonText, ButtonUpdate } from 'components/CustomComponents'
-import { CompleteItem } from 'components/Item'
+import { ButtonAdd, ButtonText, LineSeparator } from 'components/CustomComponents'
 import Modal from 'components/Modal'
 import { useEffect, useState } from 'react'
 import { api } from 'utils/api'
@@ -20,7 +19,7 @@ export default function ModalCar({ showModal, setShowModal }: Props) {
   const [carChange, setCarChange] = useState({})
   
   useEffect(() => {
-    api.get('carros')
+    api.get('carros') //TODO melhorar a busca
       .then(response => {
         const activeCars = (response.data as Car[]).filter(car => car.status)
         setActiveCars(activeCars)
@@ -53,7 +52,7 @@ export default function ModalCar({ showModal, setShowModal }: Props) {
     >
       <div className={styles.modalContent}>
         {activeCars.map(car => 
-          <ItemActiveCar car={car} handleCar={handleCar} />
+          <ItemActiveCar car={car} handleCar={handleCar} key={car.id} />
         )}
 
         {inactiveCars.length > 0 && (

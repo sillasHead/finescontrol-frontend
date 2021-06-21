@@ -18,7 +18,7 @@ export default function Modal({ children, showModal, setShowModal, title }: Prop
 
   return (
     <div
-      id="background"
+      id='background'
       className={`${styles.backgroundModal} ${showModal ? styles.showModal : styles.hiddenModal}`}
       onClick={e => outsideClick(e.target)}
     >

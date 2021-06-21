@@ -15,7 +15,11 @@ export type Driver = {
 export type Fine = {
   id: number
   aitCode: string
-  moment: string
+  moment: Date
+  dueDate: Date
+  paymentDate: Date
+  identifiedDriver: boolean
+  amount: number
   car: Car
   driver: Driver
   infraction: Infraction
