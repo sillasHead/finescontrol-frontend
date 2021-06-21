@@ -1,4 +1,4 @@
-import { MenuItem } from 'components/Item'
+import { ItemMenu } from 'components/Item'
 import ModalCar from 'components/Modal/Car'
 import ModalDriver from 'components/Modal/Driver'
 import ModalInfraction from 'components/Modal/Infraction'
@@ -13,10 +13,10 @@ export function Menu() {
   return (
     <>
       <div className={styles.menuContainer}>
-        <MenuItem selected={!showModalDriver && !showModalCar && !showModalInfraction} title={'Multas'} />
-        <MenuItem selected={showModalDriver} title={'Motoristas'} setShowModal={setShowModalDriver} />
-        <MenuItem selected={showModalCar} title={'Carros'} setShowModal={setShowModalCar} />
-        <MenuItem selected={showModalInfraction} title={'Infrações'} setShowModal={setShowModalInfraction} />
+        <ItemMenu selected={!showModalDriver && !showModalCar && !showModalInfraction} title={'Multas'} />
+        <ItemMenu selected={showModalDriver} title={'Motoristas'} setShowModal={setShowModalDriver} />
+        <ItemMenu selected={showModalCar} title={'Carros'} setShowModal={setShowModalCar} />
+        <ItemMenu selected={showModalInfraction} title={'Infrações'} setShowModal={setShowModalInfraction} />
       </div>
       <ModalDriver showModal={showModalDriver} setShowModal={setShowModalDriver} />
       <ModalCar showModal={showModalCar} setShowModal={setShowModalCar} />

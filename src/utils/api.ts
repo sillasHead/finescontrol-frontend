@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { Car, Driver, Infraction } from './types'
+import { Car, Driver, Fine, Infraction } from './types'
 
 export const api = axios.create({
   baseURL: 'http://localhost:8080/',
@@ -37,3 +37,14 @@ export function getInfractions(setInfractions: (infractions: Infraction[]) => vo
       console.log('api.get(infracoes) => ', error)
     })
 } 
+
+export function getFines(setFines: (fines: Fine[]) => void) {
+  api.get('multas')
+    .then(response => {
+      setFines(response.data)
+    })
+    .catch(error => {
+      alert('Erro')
+      console.log('api.get(multas) => ', error)
+    })
+}

@@ -1,5 +1,5 @@
 import { ButtonAccept, ButtonDelete, ButtonDiscard, ButtonReactivate, ButtonUpdate, TextFieldGray } from 'components/CustomComponents'
-import { CompleteItem } from 'components/Item'
+import { ItemComplete } from 'components/Item'
 import { useState } from 'react'
 import { api } from 'utils/api'
 import { getElementValue } from 'utils/functions'
@@ -54,7 +54,7 @@ export function ItemActiveCar({ car, handleCar }: Props) {
   }
 
   return (
-    <CompleteItem
+    <ItemComplete
       paddingContent={5}
       title={!isEditing ? (
         <span>{car.name}</span>
@@ -107,7 +107,7 @@ export function ItemActiveCar({ car, handleCar }: Props) {
           </>
         )}
       </div>
-    </CompleteItem>
+    </ItemComplete>
   )
 }
 
@@ -128,7 +128,7 @@ export function ItemInactiveCar({ car, handleCar: handleTest }: Props) {
   }
 
   return (
-    <CompleteItem
+    <ItemComplete
       paddingContent={5}
       title={
         <span>{car.name}</span>
@@ -146,7 +146,7 @@ export function ItemInactiveCar({ car, handleCar: handleTest }: Props) {
           <ButtonReactivate onClick={reactivateCar} />
         </div>
       </div>
-    </CompleteItem>
+    </ItemComplete>
   )
 }
 
@@ -182,7 +182,7 @@ export function AddCar({ handleIsAdding, handleCar }: AddCarProps) {
   }
 
   return (
-    <CompleteItem
+    <ItemComplete
       paddingContent={5}
       title={
         <TextFieldGray
@@ -212,6 +212,6 @@ export function AddCar({ handleIsAdding, handleCar }: AddCarProps) {
           <ButtonDiscard onClick={handleIsAdding} />
         </div>
       </div>
-    </CompleteItem>
+    </ItemComplete>
   )
 }

@@ -1,3 +1,31 @@
 main {
   display: flex;
 }
+
+.item {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 10px;
+
+  font-size: var(--p);
+
+  &.inactive {
+    border: none;
+    background: var(--gray-100);
+    color: var(--gray-400);
+  }
+}
+
+.line {
+  display: flex;
+  justify-content: space-between;
+}
+
+.w25 {
+  width: 25%;
+}
+
+.w75 {
+  width: 75%;
+}

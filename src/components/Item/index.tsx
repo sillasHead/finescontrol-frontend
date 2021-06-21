@@ -7,7 +7,7 @@ type CompleteItemProps = {
   inactive?: boolean
 }
 
-export function CompleteItem({ children, paddingContent, title, inactive }: CompleteItemProps) {
+export function ItemComplete({ children, paddingContent, title, inactive }: CompleteItemProps) {
   return (
     <div className={`${styles.itemContainer} ${inactive ? styles.inactive : ''}`}>
       <div className={`${styles.itemHeader} ${inactive ? styles.inactive : ''}`}>
@@ -25,7 +25,7 @@ export function CompleteItem({ children, paddingContent, title, inactive }: Comp
   )
 }
 
-export function FineItem() {
+export function ItemFine() {
   return (
     <div className={styles.item}>
       <div className={styles.line}>
@@ -83,7 +83,7 @@ type MenuItemProps = {
   setShowModal?: (state: boolean) => void
 }
 
-export function MenuItem({ selected, title, setShowModal }: MenuItemProps) {
+export function ItemMenu({ selected, title, setShowModal }: MenuItemProps) {
   return (
     <>
       <div className={`${styles.menuItem} ${selected ? styles.selected : ''}`} onClick={setShowModal ? () => setShowModal(true) : () => Function}>

@@ -10,6 +10,7 @@ export type Driver = {
   id: number
   name: string
   status: boolean
+  fines?: Fine[]
 }
 
 export type Fine = {
