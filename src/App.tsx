@@ -36,7 +36,7 @@ function App() {
         <Background>
           {drivers && drivers.map(driver => (
             <ItemComplete title={<span>{driver.name}</span>} key={driver.id}>
-              {driver.fines && driver.fines.map(fine => (
+              {driver.fines && (driver.fines).map(fine => (
                 <Item key={fine.id}>
                   <div className={styles.item}>
                     <div className={styles.line}>

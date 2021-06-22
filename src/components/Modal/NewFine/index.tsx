@@ -3,6 +3,7 @@ import { Autocomplete } from '@material-ui/lab'
 import { ButtonBlue, ButtonGray, ButtonOrange, CssRadio, TextFieldBlue } from 'components/CustomComponents'
 import Modal from 'components/Modal'
 import { useEffect, useState } from 'react'
+import { useForm } from 'react-hook-form'
 import { api, getCars, getDrivers, getInfractions } from 'utils/api'
 import { getElementValue, today } from 'utils/functions'
 import { Car, Driver, Fine, Infraction } from 'utils/types'
@@ -14,18 +15,29 @@ type Props = {
   setFineAdded: (fine: Fine) => void
 }
 
+type FormValues = {
+  id: number
+  aitCode: string
+  moment: Date
+  dueDate: Date
+  paymentDate: Date
+  identifiedDriver: boolean
+  amount: number
+  driver: {
+    id: number
+    name: string
+    status: boolean
+  } // nao posso definir como 'Driver' por conta do erro do typescript
+    // 'Type of property circularly references itself in mapped type ts(2615)'
+  car: Car
+  infraction: Infraction
+}
+
 export default function ModalNewFine({ showModal, setShowModal, setFineAdded }: Props) {
-  const [infractionMoment, setInfractionMoment] = useState<string>(today('datetime'))
-  const [dueDate, setDueDate] = useState<string>(today('date'))
-  const [paymentDate, setPaymentDate] = useState<string>(today('date'))
-  const [amount, setAmount] = useState(0)
-  const [identifiedDriver, setIdentifiedDriver] = useState<boolean>()
+  const { register, /* handleSubmit, */ getValues, setValue/* , reset */ } = useForm<FormValues>()
   const [cars, setCars] = useState<Car[]>([])
   const [drivers, setDrivers] = useState<Driver[]>([])
   const [infractions, setInfractions] = useState<Infraction[]>([])
-  const [car, setCar] = useState<Car>()
-  const [driver, setDriver] = useState<Driver>()
-  const [infraction, setInfraction] = useState<Infraction>()
 
   useEffect(() => {
     getCars(setCars)
@@ -33,59 +45,25 @@ export default function ModalNewFine({ showModal, setShowModal, setFineAdded }: 
     getInfractions(setInfractions)
   }, [showModal])
 
-  function handleInfraction(selectedInfraction: Infraction) {
-    setInfraction(selectedInfraction)
-    setAmount(selectedInfraction.amount)
-  }
-
-  function handleDriver(selectedDriver: Driver) {
-    setDriver(selectedDriver)
-  }
-
-  function handleCar(selectedCar: Car) {
-    setCar(selectedCar)
-  }
-
-  function handleMomentChange(newDateTimeString: string) {
-    setInfractionMoment(newDateTimeString)
-  }
-
-  function handleDueDateChange(newDateString: string) {
-    setDueDate(newDateString)
-  }
-
-  function handlePaymentDateChange(newDateString: string) {
-    setPaymentDate(newDateString)
-  }
-
-  function handleRadio(select: string) {
-    select === 'true' ? 
-    setIdentifiedDriver(true) :
-    setIdentifiedDriver(false)
-  }
-
   function insertFine() {
-    car && driver && infraction && identifiedDriver && 
-    api.post('multas', {
-      id: 0,
-      aitCode: getElementValue('aitCode', 'uppercase'),
-      amount: amount,
-      car: car,
-      driver: driver,
-      identifiedDriver: identifiedDriver,
-      infraction: infraction,
-      dueDate: new Date(dueDate),
-      moment: new Date(infractionMoment),
-      paymentDate: new Date(paymentDate),
-    } as Fine)
-      .then(response => {
-        alert('Multa adicionada com sucesso')
-        setFineAdded(response.data)
-      })
-      .catch(error => {
-        alert('erro')
-        console.log('api.post => ', error)
-      })
+      api.post('multas', getValues())
+        .then(response => {
+          alert('Multa adicionada com sucesso')
+          setFineAdded(response.data)
+        })
+        .catch(error => {
+          alert('erro')
+          console.log('api.post => ', error)
+        })
+  }
+
+  function handleInfractionChange(infraction: Infraction) {
+    setValue('infraction', infraction)
+    setValue('amount', infraction.amount)
+  }
+
+  function test() {
+    console.log(getValues())
   }
 
   return (
@@ -97,31 +75,36 @@ export default function ModalNewFine({ showModal, setShowModal, setFineAdded }: 
       <form className={styles.modalContent}>
         <div className={styles.line}>
           <Autocomplete
+            {...register('infraction')}
             options={infractions}
             getOptionLabel={(infraction) => infraction.description}
             style={{ width: '80%' }}
             renderInput={(params) => <TextFieldBlue {...params} label='Infração' variant='standard' />}
-            onChange={(e, infraction) => infraction && handleInfraction(infraction)}
-            clearText={'true'}
+            getOptionSelected={(option, infraction) => option === infraction}
+            onChange={(e, infraction) => infraction && handleInfractionChange(infraction)}
           />
           <TextFieldBlue
+            {...register('amount')}
             label='Valor'
-            value={amount}
-            onKeyUp={() => Function}
             style={{ width: 125 }}
             InputProps={{
-              startAdornment: <InputAdornment position="start">R$</InputAdornment>
+              startAdornment: <InputAdornment position="start">R$</InputAdornment>, 
+              id: 'amount'
+              // readOnly: true
             }}
           />
         </div>
         <div className={styles.line}>
-          <TextFieldBlue id='aitCode' label='AIT' style={{ width: 300 }} />
           <TextFieldBlue
+            {...register('aitCode')}
+            label='AIT'
+            style={{ width: 300 }}
+          />
+          <TextFieldBlue
+            {...register('moment')}
             style={{ width: 190 }}
             label='Momento da infração'
             type='datetime-local'
-            defaultValue={infractionMoment}
-            onChange={e => handleMomentChange(e.target.value)}
             InputLabelProps={{
               shrink: true,
             }}
@@ -133,14 +116,16 @@ export default function ModalNewFine({ showModal, setShowModal, setFineAdded }: 
             getOptionLabel={(driver) => driver.name}
             style={{ width: 300 }}
             renderInput={(params) => <TextFieldBlue {...params} label='Motorista' variant='standard' />}
-            onChange={(e, driver) => driver && handleDriver(driver)}
+            getOptionSelected={(option, driver) => option === driver}
+            onChange={(e, driver) => driver && setValue('driver', driver)}
           />
           <Autocomplete
             options={cars}
             getOptionLabel={(car) => car.name}
             style={{ width: 300 }}
             renderInput={(params) => <TextFieldBlue {...params} label='Carro' variant='standard' />}
-            onChange={(e, car) => car && handleCar(car)}
+            getOptionSelected={(option, car) => option === car}
+            onChange={(e, car) => car && setValue('car', car)}
           />
         </div>
 
@@ -150,31 +135,29 @@ export default function ModalNewFine({ showModal, setShowModal, setFineAdded }: 
               <strong>Indicação da Habilitação</strong>
             </span>
             <RadioGroup
+              {...register('car')}
               row
               aria-label='position'
               name='position'
               defaultValue='top'
-              onChange={(e, value) => handleRadio(e.target.value)}
             >
               <FormControlLabel value='true' control={<CssRadio color='default' />} label='Indicado' />
               <FormControlLabel value='false' control={<CssRadio color='default' />} label='Não Indicado' />
             </RadioGroup>
           </div>
           <TextFieldBlue
+            {...register('dueDate')}
             label='Prazo'
             type='date'
-            defaultValue={dueDate}
-            onChange={e => handleDueDateChange(e.target.value)}
             style={{ width: 150 }}
             InputLabelProps={{
               shrink: true,
             }}
           />
           <TextFieldBlue
+            {...register('paymentDate')}
             label='Pagamento'
             type='date'
-            defaultValue={paymentDate}
-            onChange={e => handlePaymentDateChange(e.target.value)}
             style={{ width: 150 }}
             InputLabelProps={{
               shrink: true,
@@ -182,14 +165,14 @@ export default function ModalNewFine({ showModal, setShowModal, setFineAdded }: 
           />
         </div>
         <div className={styles.line}>
-          <ButtonOrange variant={'contained'}>
+          <ButtonOrange variant={'contained'} onClick={test}>
             Gerar aviso de multa
           </ButtonOrange>
           <div className={styles.cancelOrSave}>
             <ButtonGray variant={'contained'} onClick={() => setShowModal(false)}>
               Cancelar
             </ButtonGray>
-            <ButtonBlue variant={'contained'} onClick={insertFine}>
+            <ButtonBlue variant={'contained'} /* onClick={insertFine} */>
               Salvar
             </ButtonBlue>
           </div>
