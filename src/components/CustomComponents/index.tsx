@@ -129,6 +129,7 @@ export const ButtonGray = withStyles(({
 
 export const TextFieldBlue = withStyles({
   root: {
+    width: '100%',
     '& label.Mui-focused': {
       color: 'var(--blue-600)',
     },

@@ -11,9 +11,10 @@ import styles from './styles.module.scss'
 type Props = {
   showModal: boolean
   setShowModal: (state: boolean) => void
+  setFineAdded: (fine: Fine) => void
 }
 
-export default function ModalNewFine({ showModal, setShowModal }: Props) {
+export default function ModalNewFine({ showModal, setShowModal, setFineAdded }: Props) {
   const [infractionMoment, setInfractionMoment] = useState<string>(today('datetime'))
   const [dueDate, setDueDate] = useState<string>(today('date'))
   const [paymentDate, setPaymentDate] = useState<string>(today('date'))
@@ -79,7 +80,7 @@ export default function ModalNewFine({ showModal, setShowModal }: Props) {
     } as Fine)
       .then(response => {
         alert('Multa adicionada com sucesso')
-        console.log(response.data)
+        setFineAdded(response.data)
       })
       .catch(error => {
         alert('erro')
@@ -93,7 +94,7 @@ export default function ModalNewFine({ showModal, setShowModal }: Props) {
       setShowModal={setShowModal}
       title={'Nova Multa'}
     >
-      <div /* action='' method='post' //TODO utilizar form talvez */ className={styles.modalContent}>
+      <form className={styles.modalContent}>
         <div className={styles.line}>
           <Autocomplete
             options={infractions}
@@ -101,12 +102,13 @@ export default function ModalNewFine({ showModal, setShowModal }: Props) {
             style={{ width: '80%' }}
             renderInput={(params) => <TextFieldBlue {...params} label='Infração' variant='standard' />}
             onChange={(e, infraction) => infraction && handleInfraction(infraction)}
+            clearText={'true'}
           />
           <TextFieldBlue
             label='Valor'
             value={amount}
             onKeyUp={() => Function}
-            style={{ width: '15%' }}
+            style={{ width: 125 }}
             InputProps={{
               startAdornment: <InputAdornment position="start">R$</InputAdornment>
             }}
@@ -163,6 +165,7 @@ export default function ModalNewFine({ showModal, setShowModal }: Props) {
             type='date'
             defaultValue={dueDate}
             onChange={e => handleDueDateChange(e.target.value)}
+            style={{ width: 150 }}
             InputLabelProps={{
               shrink: true,
             }}
@@ -172,6 +175,7 @@ export default function ModalNewFine({ showModal, setShowModal }: Props) {
             type='date'
             defaultValue={paymentDate}
             onChange={e => handlePaymentDateChange(e.target.value)}
+            style={{ width: 150 }}
             InputLabelProps={{
               shrink: true,
             }}
@@ -190,7 +194,7 @@ export default function ModalNewFine({ showModal, setShowModal }: Props) {
             </ButtonBlue>
           </div>
         </div>
-      </div>
+      </form>
     </Modal>
   )
 }

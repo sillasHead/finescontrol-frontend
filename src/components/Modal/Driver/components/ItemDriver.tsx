@@ -54,19 +54,15 @@ export function ItemActiveDriver({ driver, handleDriver }: Props) {
       {!isEditing ? (
         <>
           <span>{driver.name}</span>
-          <div>
+          <div className={styles.buttons}>
             <ButtonUpdate onClick={handleIsEditing} />
             <ButtonDelete onClick={inactivateDriver} />
           </div>
         </>
       ) : (
         <>
-          <TextFieldBlue
-            id='name'
-            defaultValue={driver.name}
-            className={styles.inputDriver}
-          />
-          <div>
+          <TextFieldBlue id='name' defaultValue={driver.name} />
+          <div className={styles.buttons}>
             <ButtonAccept onClick={acceptEdit} />
             <ButtonDiscard onClick={handleIsEditing} />
           </div>
@@ -139,7 +135,7 @@ export function AddDriver({ handleIsAdding, handleDriver }: AddDriverProps) {
           className={styles.inputDriver}
           label='Novo motorista'
         />
-        <div>
+        <div className={styles.buttons}>
           <ButtonAccept onClick={insertDriver} />
           <ButtonDiscard onClick={handleIsAdding} />
         </div>
