@@ -2,11 +2,10 @@ import { FormControlLabel, InputAdornment, RadioGroup } from '@material-ui/core'
 import { Autocomplete } from '@material-ui/lab'
 import { ButtonBlue, ButtonGray, ButtonOrange, CssRadio, TextFieldBlue } from 'components/CustomComponents'
 import Modal from 'components/Modal'
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
-import { api, getCars, getDrivers, getInfractions } from 'utils/api'
-import { getElementValue, today } from 'utils/functions'
-import { Car, Driver, Fine, Infraction } from 'utils/types'
+import { api } from 'utils/api'
+import { Car, Fine, Infraction } from 'utils/types'
 import styles from './styles.module.scss'
 
 type Props = {
@@ -31,18 +30,46 @@ type FormValues = {
     // 'Type of property circularly references itself in mapped type ts(2615)'
   car: Car
   infraction: Infraction
+
+  drivers: {
+    id: number
+    name: string
+    status: boolean
+  }[]
+  cars: Car[]
+  infractions: Infraction[]
 }
 
 export default function ModalNewFine({ showModal, setShowModal, setFineAdded }: Props) {
   const { register, /* handleSubmit, */ getValues, setValue/* , reset */ } = useForm<FormValues>()
-  const [cars, setCars] = useState<Car[]>([])
-  const [drivers, setDrivers] = useState<Driver[]>([])
-  const [infractions, setInfractions] = useState<Infraction[]>([])
 
   useEffect(() => {
-    getCars(setCars)
-    getDrivers(setDrivers)
-    getInfractions(setInfractions)
+    api.get('carros')
+      .then(response => {
+        setValue('cars', response.data)
+      })
+      .catch(error => {
+        alert('erro')
+        console.log('api.get(carros) => ', error)
+      })
+
+    api.get('motoristas')
+      .then(response => {
+        setValue('drivers', response.data)
+      })
+      .catch(error => {
+        alert('erro')
+        console.log('api.get(motoristas) => ', error)
+      })
+      
+    api.get('infracoes')
+      .then(response => {
+        setValue('infractions', response.data)
+      })
+      .catch(error => {
+        alert('erro')
+        console.log('api.get(infracoes) => ', error)
+      })
   }, [showModal])
 
   function insertFine() {
@@ -75,9 +102,11 @@ export default function ModalNewFine({ showModal, setShowModal, setFineAdded }: 
       <form className={styles.modalContent}>
         <div className={styles.line}>
           <Autocomplete
+            value={getValues().infraction}
             {...register('infraction')}
-            options={infractions}
+            options={getValues().infractions || []}
             getOptionLabel={(infraction) => infraction.description}
+            groupBy={(infraction) => infraction.type}
             style={{ width: '80%' }}
             renderInput={(params) => <TextFieldBlue {...params} label='Infração' variant='standard' />}
             getOptionSelected={(option, infraction) => option === infraction}
@@ -112,7 +141,8 @@ export default function ModalNewFine({ showModal, setShowModal, setFineAdded }: 
         </div>
         <div className={styles.line}>
           <Autocomplete
-            options={drivers}
+            value={getValues().driver}
+            options={getValues().drivers || []}
             getOptionLabel={(driver) => driver.name}
             style={{ width: 300 }}
             renderInput={(params) => <TextFieldBlue {...params} label='Motorista' variant='standard' />}
@@ -120,7 +150,8 @@ export default function ModalNewFine({ showModal, setShowModal, setFineAdded }: 
             onChange={(e, driver) => driver && setValue('driver', driver)}
           />
           <Autocomplete
-            options={cars}
+            value={getValues().car}
+            options={getValues().cars || []}
             getOptionLabel={(car) => car.name}
             style={{ width: 300 }}
             renderInput={(params) => <TextFieldBlue {...params} label='Carro' variant='standard' />}
