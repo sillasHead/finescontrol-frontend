@@ -14,6 +14,8 @@ function App() {
   const [drivers, setDrivers] = useState<Driver[]>()
   const [showModal, setShowModal] = useState(false)
   const [fineAdded, setFineAdded] = useState<Fine>()
+  const [driverEdit, setdriverEdit] = useState<Driver>();
+  const [fineEdit, setFineEdit] = useState<Fine>();
 
   useEffect(() => {
     api.get('motoristas')
@@ -27,6 +29,12 @@ function App() {
         console.log('api.get(motoristas) => ', error)
       })
   }, [fineAdded])
+
+  function onDoubleClickItem(driver: Driver, fine: Fine) {
+    setdriverEdit(driver)
+    setFineEdit(fine)
+    setShowModal(!showModal)
+  }
   
   return (
     <>
@@ -37,7 +45,7 @@ function App() {
           {drivers && drivers.map(driver => (
             <ItemComplete title={<span>{driver.name}</span>} key={driver.id}>
               {driver.fines && (driver.fines).map(fine => (
-                <Item key={fine.id}>
+                <Item key={fine.id} onDoubleClick={() => onDoubleClickItem(driver, fine)}>
                   <div className={styles.item}>
                     <div className={styles.line}>
                       <span className={styles.w75}>
@@ -91,6 +99,8 @@ function App() {
         showModal={showModal}
         setShowModal={setShowModal}
         setFineAdded={setFineAdded}
+        driverEdit={driverEdit}
+        fineEdit={fineEdit}
       />
     </>
   )

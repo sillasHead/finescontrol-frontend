@@ -7,6 +7,13 @@ export function today(type: 'date' | 'datetime') {
   return format(new Date(), 'yyyy-MM-dd HH:mm').split(' ').join('T')
 }
 
+export function formatDate(date: Date, type: 'date' | 'datetime') {
+  if (type === 'date') {
+    return format(new Date(date), 'yyyy-MM-dd')
+  }
+  return format(new Date(date), 'yyyy-MM-dd HH:mm').split(' ').join('T')
+}
+
 export function getElementValue(id: string, textTransform?: 'uppercase') {
   const value = (document.getElementById(id) as HTMLSelectElement).value.trim()
   if (textTransform) {

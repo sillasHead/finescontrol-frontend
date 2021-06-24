@@ -1,3 +1,4 @@
+import { HTMLAttributes } from 'react'
 import styles from './styles.module.scss'
 
 type CompleteItemProps = {
@@ -94,14 +95,14 @@ export function ItemMenu({ selected, title, setShowModal }: MenuItemProps) {
   )
 }
 
-type ItemProps = {
+interface ItemProps extends HTMLAttributes<HTMLElement> {
   children: React.ReactNode
   flexDirection?: 'column' | 'row'
   alignItems?: 'center'
   inactive?: boolean
 }
 
-export function Item({ children, flexDirection, alignItems, inactive }: ItemProps) {
+export function Item({ children, flexDirection, alignItems, inactive, ...rest }: ItemProps) {
   return (
     <div
       className={`${styles.item} ${inactive ? styles.inactive : ''}`}
@@ -109,6 +110,7 @@ export function Item({ children, flexDirection, alignItems, inactive }: ItemProp
         flexDirection: flexDirection,
         alignItems: alignItems
       }}
+      {...rest}
     >
       {children}
     </div>

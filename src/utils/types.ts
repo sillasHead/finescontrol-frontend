@@ -3,18 +3,18 @@ export type Car = {
   plate: string
   name: string
   renavam: string
-  status: boolean
+  status?: boolean
 }
 
 export type Driver = {
   id: number
   name: string
-  status: boolean
+  status?: boolean
   fines?: Fine[]
 }
 
 export type Fine = {
-  id: number
+  id?: number
   aitCode: string
   moment: Date
   dueDate: Date
